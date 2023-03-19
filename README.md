@@ -42,9 +42,13 @@ I modified uart.c with:
 + latest version trigger rx again after error
 
 
-experiment.txt- results using uarte, added deinit() function, no retrigger of rx after error (and no error count here)
-   hangs, usually after reset - note there are extended periods where interrupts occur (incrementing nuaint) but not rx-done (no change in nrxint)
-   also note the odd characters from GPS. I believe this indicates odd state of GPS module.
+`experiment.txt`- results using uarte, added deinit() function, no retrigger of rx after error (and no error count here)
 
-experiment2.txt - add retrigger of rx after error
-   no hangs, errors after resetting ... note odd 8-bit values from GPS
+   line 44 starts to show the interrupt routine counting but no received chars
+   
+   line 75- new firmware with restart of rx after receive error .. good? restart after error- even with funny characters from GPS.
+   
+
+
+`experiment2.txt` - add display of error count
+   no hangs, errors after resetting but receive recovers.
