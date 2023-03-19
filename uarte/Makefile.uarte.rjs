@@ -259,9 +259,13 @@ SRC_LIB_C += $(addprefix lib/,\
         )
 endif
 
+RJSUARTE ?= 0
+ifeq ($(RJSUARTE),1)
+CFLAGS += -DRJSUARTE
 SRC_NRFX += $(addprefix lib/nrfx/drivers/src/,\
         nrfx_uarte.c \
         )
+endif
 
 SRC_NRFX += $(addprefix lib/nrfx/drivers/src/,\
 	prs/nrfx_prs.c \
