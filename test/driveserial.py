@@ -56,6 +56,21 @@ def doarguments(args):
         action="store_true",
         help="enable debug",
     )
+    parser.add_argument(
+        "-E",
+        "--echo",
+        dest="echo",
+        action="store_true",
+        help="echo output to stdio",
+    )
+
+    parser.add_argument(
+        "-8",
+        "--eight",
+        dest="doeight",
+        action="store_true",
+        help="enable 8 bit characters instead of 7 bit",
+    )
     r = parser.parse_args(args)
     return r
 
@@ -63,17 +78,24 @@ def doarguments(args):
 linedata = b"12345,67890,ABCDEF,GHIJK,lmnop,qrstu,VwXyZ"
 
 
-def dobatch(ser, nline, linedata, debug=False):
+def dobatch(ser, nline, linedata, *, echo=False, debug=False):
     for _ in range(nline):
-        if debug:
-            print(linedata)
-        elif ser is not None:
+        if not (debug or (ser is None)):
             ser.write(linedata)
-    if debug:
+        if echo or debug:
+            print(linedata)
+    if echo or debug:
         print("End dobatch")
 
 
-def getline(llen):
+def getline8(llen):
+    b = bytearray()
+    for i in range(llen):
+        b.append(255 - (i & 255))
+    return b
+
+
+def getline7(llen):
     cl = 0
     ldata = b""
     flen = len(linedata)
@@ -83,16 +105,23 @@ def getline(llen):
     return ldata + b"\r\n"
 
 
+def getline(llen, *, eightbit=False):
+    return getline8(llen) if eightbit else getline7(llen)
+
+
 def domain(args):
     r = doarguments(args)
     ser = serial.Serial(r.device, r.baud)
     time.sleep(5)  # wait for serial to connect
     keepgoing = True
-    ldata = getline(r.llen)
+    ldata = getline(r.llen, eightbit=r.doeight)
     while keepgoing:
-        dobatch(ser, r.batch, ldata, r.debug)
-        if r.gap:
-            time.sleep(r.gap)
+        try:
+            dobatch(ser, r.batch, ldata, echo=r.echo, debug=r.debug)
+            if r.gap:
+                time.sleep(r.gap)
+        except KeyboardInterrupt:
+            keepgoing = False
 
 
 if __name__ == "__main__":
