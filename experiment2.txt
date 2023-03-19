@@ -1,0 +1,37 @@
+rick@ricklinux2:/work/tools/micropython_nrf82540/uarte$ mpremote
+Connected to MicroPython at /dev/ttyACM0
+Use Ctrl-] to exit this shell
+
+>>> import machine
+>>> ua=machine.UART(0, 9600)
+>>> ua.any(1)
+any(): size=64 iget:0  iput:63 nuaint:2984  nrxint=2984 lastint=1  nerr=0   anyval:63
+>>> ua.read()
+b'$GNRMC,150601.00,A,4444.62068,N,09309.62631,W,0.409,,190323,,,D1,09,65,26,324,,71,27,200,30,72,52,260,28,73,44,052,*61\r\n$GLGSV,3,2,09,74,63,325,,75,20,272,25,82,15,024,18,83,29,069,*61\r\n$GLGSV,3,3,09,84,12,131,*50\r\n$GNGLL,4444.62068,N,09309.62580,W,150607.'
+>>> ua.any(1)
+any(): size=64 iget:0  iput:63 nuaint:11387  nrxint=11387 lastint=1  nerr=0   anyval:63
+>>> ua.read()
+b'00,A,D*65\r\n$GNRMC,150608.00,A,4444.62076,N,09309.62570,W,0.261,,*71\r\n$GLGSV,3,1,09,65,26,324,,71,27,200,31,72,52,260,28,73,44,052,*60\r\n$GLGSV,3,2,09,74,63,325,,75,20,272,25,82,15,023,15,83,29,068,*6A\r\n$GLGSV,3,3,09,84,13,130,*50\r\n$GNGLL,4444.62124,N,09309.62696,W,150619.00,A,D*67\r\n'
+>>> 
+MPY: soft reboot
+MicroPython v1.19.1-893-g91a9fa0a6-dirty on 2023-03-19; XIAO nRF52840 Sense with NRF52840
+Type "help()" for more information.
+>>> import machine
+>>> ua = machine.UART(0, 9600)
+>>> ua.any(1)
+any(): size=64 iget:0  iput:63 nuaint:34236  nrxint=34236 lastint=1  nerr=0   anyval:63
+>>> ua.read()
+b'444.62089,N,09309.62736,W,2,11,0.87,300.4,M,-31.0,M,,0000*73\r\n$,3,3,09,84,13,130,*50\r\n$GNGLL,4444.62064,N,09309.62690,W,150649.00,A,D*61\r\n'
+>>> device disconnected
+                       rick@ricklinux2:/work/tools/micropython_nrf82540/uarte$ 
+rick@ricklinux2:/work/tools/micropython_nrf82540/uarte$ mpremote
+Connected to MicroPython at /dev/ttyACM0
+Use Ctrl-] to exit this shell
+
+>>> import machine
+>>> ua=machine.UART(0, 9600)
+>>> ua.any(1)
+any(): size=64 iget:0  iput:63 nuaint:2781  nrxint=2733 lastint=1  nerr=48   anyval:63
+>>> ua.read()
+b'\xd2\x14e\x9ab\x9ab\x82\xcab\xc2\xa2b\x8a\x9ab\x8a\x9a\x82bR\xaa\x82"9\x1d119]\x05\x05\x15\xff$GNRMC,150729.00,A,4444.616792,,,,,,,,1.77,0.88,1.53*15\r\n$GPGSV,4,1,14,04,43,175,24,05,03,334,13,07,56,304,17,08,51,142,*71\r\n$GPGSV,4,2,14,09,63,230,33,14,02,240,,16,37,055,15,18,03,031,09*70\r\n$GPGSV,4,3,14,20,07,309,16,26'
+>>> 
