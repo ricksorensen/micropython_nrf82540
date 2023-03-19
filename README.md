@@ -7,6 +7,7 @@ Check out NRF devlopment to match expansion board tests.
 2.  `machine.UART(0, 9600)` with GPS gets stuck
      `test/driveserial.py` can be used to drive a serial port to test without a GPS module.  Note in my testing, the GPS module caused the UART to quit receiving while the `driveserial.py` tests did not.  It uses the `pyserial` module.
 	 
+```
 usage: driveserial.py [-h] [-d DEVICE] [-b BAUD] [-L LLEN] [-g GAP] [-B BATCH]
                       [-D] [-E] [-8]
 
@@ -28,6 +29,7 @@ options:
   -E, --echo            echo output to stdio (default: False)
   -8, --eight           enable 8 bit characters instead of 7 bit (default:
                         False)					
+```
 
 I modified uart.c with:
 
