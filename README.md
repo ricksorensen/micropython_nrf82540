@@ -34,13 +34,16 @@ options:
 I modified uart.c with:
 
 + added volatile counters to track interrupt behavior:
-   nuaint = count entry to interrupt
-   nrxint = count rx-done events
-   nerr   = count rx err events
+   - nuaint = count entry to interrupt
+   - nrxint = count rx-done events
+   - nerr   = count rx err events
 + add an argument to any() to allow print out of interrupt counts
-+ added deinit function
++ added deinit function - probably not complete.  Sometimes helped
 + latest version trigger rx again after error
 
+In uarte directory:
++ `Makefile` modified to add UARTE libraries and option using `make RJSUARTE=1 xxxx`
++ `nrfx_config.h` modifed to add UARTE for NRF52840 ... your fix is more elegant
 
 `experiment.txt`- results using uarte, added deinit() function, no retrigger of rx after error (and no error count here)
 
