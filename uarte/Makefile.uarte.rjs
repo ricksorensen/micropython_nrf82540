@@ -167,7 +167,6 @@ endif
 
 LIBS = \
 
-RJSUARTE ?= 0
 ifeq ($(MCU_VARIANT), nrf52)
 
 SRC_LIB_C += $(addprefix lib/,\
@@ -200,12 +199,11 @@ SRC_LIB_C += $(addprefix lib/,\
         libm/roundf.c \
 	)
 
-ifeq ($(RJSUARTE),1)
+# always use UARTE if not NRF51
 CFLAGS += -DRJSUARTE
 SRC_NRFX += $(addprefix lib/nrfx/drivers/src/,\
         nrfx_uarte.c \
         )
-endif
 endif
 
 ifeq ($(MCU_VARIANT), nrf91)
