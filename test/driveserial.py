@@ -18,6 +18,13 @@ def doarguments(args):
         help="Serial port to connect with",
     )
     parser.add_argument(
+        "--eol",
+        dest="eol",
+        type=str,
+        default=None,
+        help="read to eol: None (ignore), crlf, cr, lf",
+    )
+    parser.add_argument(
         "-b",
         "--baud",
         dest="baud",
@@ -88,10 +95,12 @@ def dobatch(ser, nline, linedata, *, echo=False, debug=False):
         print("End dobatch")
 
 
-def getline8(llen):
+def getline8(llen, eolc=b""):
     b = bytearray()
     for i in range(llen):
-        b.append(255 - (i & 255))
+        # don't include \r or \n if eolc specified
+        if ((i != 10) and (i != 13)) or (len(eolc) == 0):
+            b.append(255 - (i & 255))
     return b
 
 
@@ -102,11 +111,12 @@ def getline7(llen):
     while cl < llen:
         ldata = ldata + linedata[0 : min(flen, llen - cl)]
         cl = len(ldata)
-    return ldata + b"\r\n"
+    return ldata
 
 
-def getline(llen, *, eightbit=False):
-    return getline8(llen) if eightbit else getline7(llen)
+def getline(llen, *, eightbit=False, eolc=b""):
+    ld = getline8(llen) if eightbit else getline7(llen)
+    return ld + eolc
 
 
 def domain(args):
@@ -114,7 +124,15 @@ def domain(args):
     ser = serial.Serial(r.device, r.baud)
     time.sleep(5)  # wait for serial to connect
     keepgoing = True
-    ldata = getline(r.llen, eightbit=r.doeight)
+    eolchars = b""
+    if r.eol == "crlf":
+        eolchars = b"\r\n"
+    elif r.eol == "cr":
+        eolchars = b"\r"
+    elif r.eol == "lf":
+        eolchars = b"\n"
+
+    ldata = getline(r.llen, eightbit=r.doeight, eolc=eolchars)
     while keepgoing:
         try:
             dobatch(ser, r.batch, ldata, echo=r.echo, debug=r.debug)
