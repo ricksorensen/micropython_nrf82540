@@ -1,0 +1,32 @@
+board,mcu_variant,mcu_sub_variant,bldmpy,bldsp1,bldsp1updt
+actinius_icarus,nrf91,nrf9160,ERR1 uarte,uarte,uarte
+arduino_nano_33_ble_sense,nrf52,nrf52840,uarte,ERR3,ERR3
+arduino_primo,nrf52,nrf52832,ERR2,uart,uarte
+blueio_tag_evim,nrf52,nrf52832,ERR2,uart,uarte
+dvk_bl652,nrf52,nrf52832,ERR2,uart,uarte
+evk_nina_b1,nrf52,nrf52832,ERR2,uart,uarte
+evk_nina_b3,nrf52,nrf52840,uarte,uart,uarte
+feather52,nrf52,nrf52832,ERR2,uart,uarte
+ibk_blyst_nano,nrf52,nrf52832,ERR2,uart,uarte
+idk_blyst_nano,nrf52,nrf52832,ERR2,uart,uarte
+microbit,nrf51,nrf51822,uarte,uart,uart
+nrf52840-mdk-usb-dongle,nrf52,nrf52840,uarte,uart,uarte
+particle_xenon,nrf52,nrf52840,uarte,uart,uarte
+pca10000,nrf51,nrf51822,uarte,uart,uart
+pca10001,nrf51,nrf51822,uarte,uart,uart
+pca10028,nrf51,nrf51822,uarte,uart,uart
+pca10031,nrf51,nrf51822,uarte,uart,uart
+pca10040,nrf52,nrf52832,ERR2,uart,uarte
+pca10056,nrf52,nrf52840,uarte,uart,uarte
+pca10059,nrf52,nrf52840,uarte,uart,uarte
+pca10090,nrf91,nrf9160,ERR1 uarte,uarte,uarte
+seeed_xiao_nrf52,nrf52,nrf52840,uarte,uart,uarte
+wt51822_s4at,nrf51,nrf51822,uarte,uart,uart
+
+
+#ERR1: multiple definitions due to including nrfx_uarte.o twice on ld invocation.  (I thought ld was smarter?)
+#ERR2: undefined UARTE1 constants
+#ERR3: freeze error executing "boards/arduino_nano_33_ble_sense/manifest.py" missing bmm150 from micropython-lib (present in main micropython)
+#uarte: nrfx_uarte.o was built (indicated UARTE enabled?)  note that nrfx_uarte.o is built for original but not actually used(referenced)
+
+
