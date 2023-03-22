@@ -76,10 +76,13 @@
 
 // RJS - to force UARTE 
 #if defined(RJSUARTE)
-  #pragma message "RJSUARTE enabled"
+   //  #pragma message "RJSUARTE enabled"
   #define NRFX_UARTE_ENABLED 1
   #define NRFX_UARTE0_ENABLED 1
+#if !defined(NRF52832)
+  #pragma message "RJSUARTE two enabled"
   #define NRFX_UARTE1_ENABLED 1
+#endif
 #elif defined(NRF51)  || defined(NRF52_SERIES)
   #pragma message "RJSUARTE _not_ enabled"
   #define NRFX_UART_ENABLED 1
